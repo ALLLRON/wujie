@@ -2,12 +2,19 @@
   <div class="hello">
     <img alt="Vue logo" src="@/assets/logo.png" />
     <h2 class="vue-title">{{ msg }}</h2>
+    <Rich></Rich>
   </div>
 </template>
 
 <script>
+import Rich from "./Rich.vue";
 export default {
+  components: { Rich },
   name: "HelloWorld",
+  component: {
+    Rich,
+  },
+
   props: {
     msg: String,
   },
