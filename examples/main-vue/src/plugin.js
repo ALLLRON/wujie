@@ -4,6 +4,12 @@ const plugins = [
       {
         // content: "window.Selection = window.parent.Selection; window.DataTransfer = window.parent.DataTransfer",
         callback: (appWindow) => {
+          console.log(appWindow.parent, appWindow.parent.luckysheet);
+
+          console.log(appWindow, appWindow.luckysheet);
+
+          console.log(window.__WUJIE_RAW_WINDOW__, window);
+
           Object.defineProperties(appWindow, {
             Selection: {
               get: () =>
@@ -21,9 +27,17 @@ const plugins = [
         },
       },
     ],
+    jsAfterLoaders: [
+      {
+        callback: (appWindow) => {
+          console.log(appWindow);
+        },
+      },
+    ],
     jsLoader: (code) => {
       return (
         code
+          // wangEditor
           // .replace("IS_CHROME && hasShadowRoot()", `(IS_CHROME && hasShadowRoot()) || (IS_CHROME && window.$wujie)`)
           .replace(
             "window.document.activeElement&&window.document.activeElement.shadowRoot",
@@ -34,6 +48,8 @@ const plugins = [
           // .replace("e instanceof t.Node", "e instanceof (window.__WUJIE.degrade ? window.Node : t.Node)")
           .replace("n.isCollapsed", "n.baseOffset === n.focusOffset")
           .replace("n.collapsed", "n.startOffset === n.endOffset")
+          // luckysheet
+          .replace("var luckysheet", "window.luckysheet")
       );
     },
   },

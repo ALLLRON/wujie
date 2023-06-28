@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <HelloWorld msg="Vue2示例"></HelloWorld>
-    <div class="content" style="text-align: center">
+  <!-- <div> -->
+  <!-- <HelloWorld msg="Vue2示例"></HelloWorld> -->
+  <!-- <div class="content" style="text-align: center">
       <p>
         当前vue版本
         <el-tag style="vertical-align: text-top" size="small">2.6.11</el-tag>
@@ -17,26 +17,29 @@
       <p>
         <el-button @click="open('https://github.com/Tencent/wujie/tree/master/examples/vue2')">仓库地址</el-button>
       </p>
-    </div>
-  </div>
+    </div> -->
+  <luck-sheet></luck-sheet>
+  <!-- </div> -->
 </template>
 
 <script>
-  import HelloWorld from "@/components/HelloWorld.vue";
-  export default {
-    data() {
-      return {
-        open: window.open,
-      };
-    },
-    components: {
-      HelloWorld,
-    },
-  };
+// import HelloWorld from "@/components/HelloWorld.vue";
+import LuckSheet from "../components/LuckSheet.vue";
+export default {
+  data() {
+    return {
+      open: window.open,
+    };
+  },
+  components: {
+    // HelloWorld,
+    LuckSheet,
+  },
+};
 </script>
 
 <style>
-  :root {
-    --host-color: #f16b5f;
-  }
+:root {
+  --host-color: #f16b5f;
+}
 </style>
