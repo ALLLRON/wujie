@@ -48,10 +48,11 @@ const plugins = [
           // .replace("e instanceof t.Node", "e instanceof (window.__WUJIE.degrade ? window.Node : t.Node)")
           .replace("n.isCollapsed", "n.baseOffset === n.focusOffset")
           .replace("n.collapsed", "n.startOffset === n.endOffset")
-          // luckysheet
-          .replace("var luckysheet", "window.luckysheet")
+        // luckysheet
+        // .replace("var luckysheet", "window.luckysheet") // 与jsignores二选一即可
       );
     },
+    jsIgnores: [/luckysheet\.umd\.js/, /luckysheet\/plugins\/js\/plugin\.js/],
   },
   // wangEditor-降级开启模式下（degrade:true）加入这个插件可以正常使用。非降级模式异常
   // {
