@@ -67,11 +67,9 @@ setupApp({
   plugins,
 });
 
-if (window.localStorage.getItem("preload") !== "false") {
-  preloadApp({
-    name: "vue2",
-  });
-}
+preloadApp({
+  name: "vue2",
+});
 
 new Vue({
   router,
