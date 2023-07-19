@@ -1,14 +1,37 @@
+function proxyAddEventListenerFactory(windowObj) {
+  const rawAddEventListener = windowObj.addEventListener;
+
+  function proxyAddEventListener(type, rawListener, options) {
+    const listener = (e) => {
+      const target = e.target;
+      const realTarget = target.shadowRoot && e.composed ? e.composedPath()[0] || target : target;
+      // 因为 e.target 是只读属性，只能构造一个新的对象代替 Event 对象
+      const event = {};
+
+      for (let key in e) {
+        event[key] = e[key];
+      }
+      event.target = realTarget; // 将 target 指向正确的节点
+      // 防止后续使用 stopPropagation、preventDefault 报错
+      event.stopPropagation = () => e.stopPropagation();
+      event.preventDefault = () => e.preventDefault();
+      event.rawEvent = e;
+      console.log(event);
+      rawListener.call(windowObj, event);
+    };
+
+    rawAddEventListener(type, listener, options);
+  }
+
+  return proxyAddEventListener;
+}
+
 const plugins = [
   {
     jsBeforeLoaders: [
       {
-        // content: "window.Selection = window.parent.Selection; window.DataTransfer = window.parent.DataTransfer",
         callback: (appWindow) => {
-          console.log(appWindow.parent, appWindow.parent.luckysheet);
-
-          console.log(appWindow, appWindow.luckysheet);
-
-          console.log(window.__WUJIE_RAW_WINDOW__, window);
+          /**wangeditor ---start */
 
           Object.defineProperties(appWindow, {
             Selection: {
@@ -24,59 +47,33 @@ const plugins = [
                   : appWindow.parent.DataTransfer,
             },
           });
-        },
-      },
-    ],
-    jsAfterLoaders: [
-      {
-        callback: (appWindow) => {
-          console.log(appWindow);
+          /**wangeditor ---end */
+
+          /**捕获target异常处理  */
+          appWindow.addEventListener = proxyAddEventListenerFactory(appWindow);
         },
       },
     ],
     jsLoader: (code) => {
       return (
         code
-          // wangEditor
-          // .replace("IS_CHROME && hasShadowRoot()", `(IS_CHROME && hasShadowRoot()) || (IS_CHROME && window.$wujie)`)
+          /**wangeditor ---start */
           .replace(
             "window.document.activeElement&&window.document.activeElement.shadowRoot",
             "((window.document.activeElement && window.document.activeElement.shadowRoot) || window.$wujie )"
           )
-          // window.document.activeElement&&window.document.activeElement.shadowRoot
           .replace("!!t&&e instanceof t.Node", " e !=null&&typeof e.nodeType === 'number'")
-          // .replace("e instanceof t.Node", "e instanceof (window.__WUJIE.degrade ? window.Node : t.Node)")
           .replace("n.isCollapsed", "n.baseOffset === n.focusOffset")
           .replace("n.collapsed", "n.startOffset === n.endOffset")
-        // luckysheet
-        // .replace("var luckysheet", "window.luckysheet") // 与jsignores二选一即可
+        // .replace(
+        //   'e.target',
+        //   'e.target?.shadowRoot && e.composed? (e.composedPath()[0] || e.target) : e.target'
+        // )
+        /**wangeditor ---end */
       );
     },
     jsIgnores: [/luckysheet\.umd\.js/, /luckysheet\/plugins\/js\/plugin\.js/],
   },
-  // wangEditor-降级开启模式下（degrade:true）加入这个插件可以正常使用。非降级模式异常
-  // {
-  //   jsBeforeLoaders: [
-  //     {
-  //       callback: (appWindow) => {
-  //         Object.defineProperties(appWindow, {
-  //           Selection: {
-  //             get: () => appWindow.__WUJIE.document.defaultView.Selection,
-  //           },
-  //           DataTransfer: {
-  //             get: () => appWindow.__WUJIE.document.defaultView.DataTransfer,
-  //           },
-  //         });
-  //       },
-  //     },
-  //   ],
-  //   jsLoader: (code) => {
-  //     return code
-  //       .replace("!!t&&e instanceof t.Node", " e !=null&&typeof e.nodeType === 'number'")
-  //       .replace("n.isCollapsed", "n.baseOffset === n.focusOffset")
-  //       .replace("n.collapsed", "n.startOffset === n.endOffset");
-  //   },
-  // },
 ];
 
 export default plugins;

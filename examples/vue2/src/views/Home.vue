@@ -18,13 +18,15 @@
         <el-button @click="open('https://github.com/Tencent/wujie/tree/master/examples/vue2')">仓库地址</el-button>
       </p>
     </div> -->
-  <luck-sheet></luck-sheet>
+  <!-- <luck-sheet></luck-sheet> -->
+  <Bpmn></Bpmn>
   <!-- </div> -->
 </template>
 
 <script>
 // import HelloWorld from "@/components/HelloWorld.vue";
-import LuckSheet from "../components/LuckSheet.vue";
+// import LuckSheet from "../components/LuckSheet.vue";
+import Bpmn from "../components/Bpmn.vue";
 export default {
   data() {
     return {
@@ -33,7 +35,8 @@ export default {
   },
   components: {
     // HelloWorld,
-    LuckSheet,
+    // LuckSheet,
+    Bpmn,
   },
 };
 </script>

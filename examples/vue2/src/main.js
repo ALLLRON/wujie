@@ -4,16 +4,17 @@ import Vue from "vue";
 import App from "./App.vue";
 import routes from "./router";
 import VueRouter from "vue-router";
-import Tag from "element-ui/lib/tag";
-import Button from "element-ui/lib/button";
-import Select from "element-ui/lib/select";
-import Option from "element-ui/lib/option";
-import Popover from "element-ui/lib/popover";
-import Dialog from "element-ui/lib/dialog";
-import AButton from "ant-design-vue/es/button";
-import ASelect from "ant-design-vue/es/select";
-import AModal from "ant-design-vue/es/modal";
-import APopover from "ant-design-vue/es/popover";
+// import Tag from "element-ui/lib/tag";
+// import Button from "element-ui/lib/button";
+// import Select from "element-ui/lib/select";
+// import Option from "element-ui/lib/option";
+// import Popover from "element-ui/lib/popover";
+// import Dialog from "element-ui/lib/dialog";
+import elementUI from "element-ui";
+// import AButton from "ant-design-vue/es/button";
+// import ASelect from "ant-design-vue/es/select";
+// import AModal from "ant-design-vue/es/modal";
+// import APopover from "ant-design-vue/es/popover";
 import "./pageLifeTest";
 import "element-ui/lib/theme-chalk/base.css";
 import "element-ui/lib/theme-chalk/tag.css";
@@ -31,11 +32,11 @@ import "./index.css";
 
 const base = process.env.NODE_ENV === "production" ? "/demo-vue2/" : "";
 
-[Tag, Button, Select, Option, Popover, Dialog].forEach((element) => Vue.use(element));
-[AButton, ASelect, AModal, APopover].forEach((element) => Vue.use(element));
+// [Tag, Button, Select, Option, Popover, Dialog].forEach((element) => Vue.use(element));
+// [AButton, ASelect, AModal, APopover].forEach((element) => Vue.use(element));
 
 Vue.use(VueRouter);
-
+Vue.use(elementUI);
 Vue.config.productionTip = false;
 
 if (window.__POWERED_BY_WUJIE__) {
