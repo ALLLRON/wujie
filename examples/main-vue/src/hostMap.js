@@ -9,10 +9,11 @@ const map = {
   "//localhost:8000/": "//wujie-micro.github.io/demo-main-vue/",
 };
 
-const devMap = {
-  "//localhost:7200/": "//localhost:5000/examples/simple-mode.html",
-};
+// const devMap = {
+//   "//localhost:7200/": "//localhost:5000/examples/simple-mode.html",
+// };
 export default function hostMap(host) {
   if (process.env.NODE_ENV === "production") return map[host];
-  return host || devMap[host];
+  return "//localhost:7201/";
+  // return host || devMap[host];
 }
